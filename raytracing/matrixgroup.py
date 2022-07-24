@@ -508,27 +508,28 @@ class MatrixGroup(Matrix):
         with open(filePath, "wb") as outfile:
             pickle.Pickler(outfile).dump(self.elements)
 
-            # We save the data to disk using a module called Pickler
-            # Some asynchronous magic is happening here with Pickle
-            # and sometimes, access to files is wonky, especially
-            # when the files are very large.
-            # Make sure file exists
-            while not os.path.exists(filePath):
-                time.sleep(0.1)
+        # BUGFIX: This should not be here
+        # We save the data to disk using a module called Pickler
+        # Some asynchronous magic is happening here with Pickle
+        # and sometimes, access to files is wonky (i.e. they cant be loaded), especially
+        # when the files are very large.
+        # Make sure file exists
+        while not os.path.exists(filePath):
+            time.sleep(0.1)
 
-            oldSize = None
-            # Make sure file is not still being written to
-            while True:
-                try:
-                    currentSize = os.path.getsize(filePath)
-                    if currentSize == oldSize:
-                        break
+        oldSize = None
+        # Make sure file is not still being written to
+        while True:
+            try:
+                currentSize = os.path.getsize(filePath)
+                if currentSize == oldSize:
+                    break
 
-                    time.sleep(1)
-                    oldSize = currentSize
-                except:
-                    # Not possible, yet: sometimes we get here
-                    time.sleep(0.1)
+                time.sleep(1)
+                oldSize = currentSize
+            except:
+                # Not possible, yet: sometimes we get here
+                time.sleep(0.5)
 
     def load(self, filePath, append=False):
         """ A MatrixGroup saved with `save()` can be loaded using this function.
