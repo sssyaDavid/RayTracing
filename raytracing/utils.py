@@ -84,7 +84,7 @@ def printClassHierarchy(aClass):
         for child in aClass.__subclasses__():
             print("\"{0}\" -> \"{1}\"".format(aClass.__name__, child.__name__))
             printAllChilds(child)
-    print("# Paste this in the text field of http://www.graphviz.org")
+    print("# Paste this in the text field of http://www.webgraphviz.com")
     print("digraph G {")
     print("  rankdir=\"LR\";")
     printAllChilds(aClass)
