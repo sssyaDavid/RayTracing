@@ -101,3 +101,52 @@ class PN_85_877(AchromatDoubletLens):
                                     tc1=1.0, tc2=2.5, te=4.2, n1=N_BAF10.n(0.5876), n2=N_SF10.n(0.5876), diameter=6.25,
                                     label="EO #85-877",
                                     url="https://www.edmundoptics.com/p/625mm-dia-x10mm-fl-vis-nir-coated-negative-achromatic-lens/28478/")
+
+class PN_49_389(AchromatDoubletLens):
+    """PN_49_389
+
+    .. csv-table::
+        :header: Parameter, value
+
+        "fa", "75.0"
+        "fb", "61.17"
+        "R1", "51.88"
+        "R2", "-32.79"
+        "R3", "-309.45"
+        "tc1", "20.0"
+        "tc2", "4.5"
+        "te", "17.07"
+        "n1", "0.5876"
+        "n2", "0.5876"
+        "diameter", "50.00"
+
+    """
+    def __init__(self):
+        super(PN_49_389,self).__init__(fa=75.0,fb=61.17, R1=51.88, R2=-32.79, R3=-309.45, 
+                                    tc1=20.0, tc2=4.5, te=17.07, mat1=N_BAF10, mat2=N_SF10, wavelengthRef=0.5876, diameter=50.0,
+                                    label="EO #49-389",
+                                    url="https://www.edmundoptics.com/p/50mm-dia-x-75mm-fl-vis-nir-coated-achromatic-lens/9821/")
+
+class PN_15_195(SingletLens):
+    """PN_15_195
+
+    .. csv-table::
+        :header: Parameter, value
+
+        "fa", "24.0"
+        "fb", "14.73"
+        "R1", "12.51"
+        "R2", "inf"
+        "tc", "14.0"
+        "te", "3.21"
+        "n1", "1.52"
+        "mat", "liba2000+"
+        "diameter", "30.00"
+        "wavelengthRef", "0.5876"
+
+    """
+    def __init__(self):
+        super(PN_15_195,self). __init__(f=24.0, fb=14.73, R1=12.51, R2=float("+inf"), 
+                 tc=14.10, te=3.21, n=1.52, diameter=30.0, mat=None, wavelengthRef=0.5876,
+                 url="https://www.edmundoptics.com/p/30mm-dia-x-24mm-fl-mgfsub2sub-coated-molded-aspheric-condenser-lens/43076/",
+                 label='EO #15-195', wavelength=None)

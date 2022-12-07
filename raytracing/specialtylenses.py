@@ -176,6 +176,8 @@ class AchromatDoubletLens(CompoundLens):
             elif wavelengthRef is not None:
                 self.n1=self.mat1.n(wavelengthRef)
                 self.n2=self.mat2.n(wavelengthRef)
+            else:
+                raise ValueError("wavelengthRef not set")
 
         if self.n1 is None or self.n2 is None:
             raise ValueError("n1 or n2 not set")
@@ -321,10 +323,18 @@ class SingletLens(CompoundLens):
             warnings.warn(msg, ExpertNote)
 
         h = self.largestDiameter / 2.0
-        phi1 = math.asin(h / abs(self.R1))
+        try:
+            phi1 = math.asin(h / abs(self.R1))
+        except Exception as err:
+            phi1 = np.pi/1.95
+
         corner1 = self.frontVertex + self.R1 * (1.0 - math.cos(phi1))
 
-        phi2 = math.asin(h / abs(self.R2))
+        try:
+            phi2 = math.asin(h / abs(self.R2))
+        except Exception as err:
+            phi2 = np.pi/1.95
+            
         corner2 = self.backVertex + self.R2 * (1.0 - math.cos(phi2))
         if abs(((corner2 - corner1) / self.te) - 1.0) > 0.05:
             msg = "Singlet {2}: obtained thickness {0:.1f} does not match expected " \
