@@ -68,7 +68,8 @@ class Material:
 
     @classmethod
     def gvd(cls):
-        """ The group index of a material is calculated from the phase index."""
+        """ The group velocity dispersion of a material is calculated from the phase index, and is
+        returned in fs^2/mm"""
         wavelengthsInMicrons = np.array(np.linspace(cls.wavelengthInMicronsMin, cls.wavelengthInMicronsMax,1000))
         omega = 2.0*3.1416/(wavelengthsInMicrons*1e-6)*3e8
 
@@ -79,15 +80,16 @@ class Material:
         dOmega = np.diff(omega)
         
         dkdOmega = dk/dOmega
-
         d2kdOmega2 = np.diff(dkdOmega)/dOmega[0:-1]
         
-        return wavelengthsInMicrons[0:-2], d2kdOmega2*1e15*1e15*1e-3
+        return wavelengthsInMicrons[0:-2], d2kdOmega2*1e15*1e15*1e-3 # unit change to fs^2/mm, standard
 
     @classmethod
-    def D(cls, wavelengthInMicrons):
+    def D(cls, 𝜆_µm):
+        """ The coefficient for the group velocity dispersion of a material at a center wavelength, and is
+        returned in fs^2/mm"""
         wavelengthsInMicrons, d2kdOmega2 = cls.gvd()
-        return np.interp(wavelengthInMicrons, wavelengthsInMicrons, d2kdOmega2)
+        return np.interp(𝜆_µm, wavelengthsInMicrons, d2kdOmega2)
 
     @classmethod
     def abbeNumber(cls):
