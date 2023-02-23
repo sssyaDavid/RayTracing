@@ -77,6 +77,14 @@ class TestMaterialSubclasses(envtest.RaytracingTestCase):
                 fails.append('Wrong value for subclass {}, {} not a valid n value.'.format(name, n))
         self.assertEqual([], fails)
 
+    def test_gvd(self):
+        w, gvd = FusedSilica.gvd()
+        self.assertEqual(len(w), len(gvd))
+        
+        for x,y in zip(w,gvd):
+            print(x,y)
+
+        self.assertAlmostEqual(FusedSilica.D(wavelengthInMicrons=0.8)/10, 35.8/10, 1)
 
 if __name__ == '__main__':
     envtest.main()

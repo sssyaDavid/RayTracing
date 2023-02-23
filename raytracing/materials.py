@@ -1,5 +1,6 @@
 import re
 from .utils import *
+import numpy as np
 
 """ Materials and their indices of refraction
 
@@ -62,10 +63,32 @@ class Material:
 
     @classmethod
     def n(cls, wavelengthInMicrons=None, wavelength=None):
-        """ The index of a material is implemented as a classmethod.
-        Return the value for the wavelength in microns."""
+        """ The index of a material is implemented as a classmethod."""
         raise TypeError("Use Material subclass, not Material")
-    
+
+    @classmethod
+    def gvd(cls):
+        """ The group index of a material is calculated from the phase index."""
+        wavelengthsInMicrons = np.array(np.linspace(cls.wavelengthInMicronsMin, cls.wavelengthInMicronsMax,1000))
+        omega = 2.0*3.1416/(wavelengthsInMicrons*1e-6)*3e8
+
+        n = list(map(cls.n, wavelengthsInMicrons))
+
+        k = 2.0*3.1416/(wavelengthsInMicrons*1e-6)*n
+        dk = np.diff(k)
+        dOmega = np.diff(omega)
+        
+        dkdOmega = dk/dOmega
+
+        d2kdOmega2 = np.diff(dkdOmega)/dOmega[0:-1]
+        
+        return wavelengthsInMicrons[0:-2], d2kdOmega2*1e15*1e15*1e-3
+
+    @classmethod
+    def D(cls, wavelengthInMicrons):
+        wavelengthsInMicrons, d2kdOmega2 = cls.gvd()
+        return np.interp(wavelengthInMicrons, wavelengthsInMicrons, d2kdOmega2)
+
     @classmethod
     def abbeNumber(cls):
         """ Abbe number of the glass, which is a measure of how dispersive
