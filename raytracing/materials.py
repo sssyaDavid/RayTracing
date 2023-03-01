@@ -67,7 +67,7 @@ class Material:
         raise TypeError("Use Material subclass, not Material")
 
     @classmethod
-    def gvd(cls):
+    def gvd(cls, 𝜆_µm=None):
         """ The group velocity dispersion of a material is calculated from the phase index, and is
         returned in fs^2/mm"""
         wavelengthsInMicrons = np.array(np.linspace(cls.wavelengthInMicronsMin, cls.wavelengthInMicronsMax,1000))
@@ -82,14 +82,22 @@ class Material:
         dkdOmega = dk/dOmega
         d2kdOmega2 = np.diff(dkdOmega)/dOmega[0:-1]
         
-        return wavelengthsInMicrons[0:-2], d2kdOmega2*1e15*1e15*1e-3 # unit change to fs^2/mm, standard
+        if 𝜆_µm is None:
+            return wavelengthsInMicrons[0:-2], d2kdOmega2*1e15*1e15*1e-3 # unit change to fs^2/mm, standard
+        else:
+            return np.interp(𝜆_µm, wavelengthsInMicrons[0:-2], d2kdOmega2*1e15*1e15*1e-3)
 
     @classmethod
-    def D(cls, 𝜆_µm):
+    def gdd(cls, d, 𝜆_µm=None):
         """ The coefficient for the group velocity dispersion of a material at a center wavelength, and is
         returned in fs^2/mm"""
         wavelengthsInMicrons, d2kdOmega2 = cls.gvd()
-        return np.interp(𝜆_µm, wavelengthsInMicrons, d2kdOmega2)
+
+        if 𝜆_µm is None:
+            return wavelengthsInMicrons, d2kdOmega2 * d
+        else:
+            return np.interp(𝜆_µm, wavelengthsInMicrons, d2kdOmega2 * d)
+
 
     @classmethod
     def abbeNumber(cls):
