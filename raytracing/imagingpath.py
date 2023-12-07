@@ -950,7 +950,7 @@ class ImagingPath(MatrixGroup):
         raise ValueError('The position of the rays does not fit in any spaces.')
 
     def display(self, rays=None, raysList=None, removeBlocked=True, comments=None,
-                onlyPrincipalAndAxialRays=None, limitObjectToFieldOfView=None, interactive=True, filePath=None): #pragma: no cover 
+                onlyPrincipalAndAxialRays=None, limitObjectToFieldOfView=None, showIntermediateImages=False, interactive=True, filePath=None): #pragma: no cover 
         """ Display the optical system and trace the rays.
 
         Parameters
@@ -1000,7 +1000,7 @@ class ImagingPath(MatrixGroup):
         else:
             self.figure.designParams['showObjectImage'] = True
 
-        self.figure.display(raysList=raysList, comments=comments, title=self.label,
+        self.figure.display(raysList=raysList, showIntermediateImages=False, comments=comments, title=self.label,
                             backend='matplotlib', display3D=False, interactive=interactive, filepath=filePath)
 
         savedDesignParams = self.figure.designParams
