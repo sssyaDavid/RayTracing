@@ -530,7 +530,7 @@ class Figure:
         figure.designParams = self.designParams
         return figure
 
-    def display(self, raysList, comments=None, title=None, backend='matplotlib',
+    def display(self, raysList, showIntermediateImages=False, comments=None, title=None, backend='matplotlib',
                 display3D=False, interactive=True, filepath=None):
         self.raysList = raysList
 
