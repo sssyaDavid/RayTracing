@@ -23,7 +23,7 @@ from raytracing import *
 import gc
 
 # Defines the path. a and b are the diameter of the lenses.
-def imagingPathPreset(a=10, b=10, title=""):
+def imagingPathPreset(a=50, b=100, title=""):
     
     path = ImagingPath()
     path.design(fontScale=1.7)
@@ -35,37 +35,37 @@ def imagingPathPreset(a=10, b=10, title=""):
 
 def exampleCode(comments=None):
     # Input from the expected field of view
-    inputRays = RandomUniformRays(yMax = 5, 
-                                  yMin = -5,
-                                  thetaMin = -0.5,
-                                  thetaMax = +0.5,
-                                  maxCount=1000000)
+    inputRays = RandomUniformRays(yMax = 10, 
+                                  yMin = -10,
+                                  thetaMin = -0.25,
+                                  thetaMax = +0.25,
+                                  maxCount=2500000)
 
     # Three paths with different sets of lens diameter. 
-    path1 = imagingPathPreset(a=15, b=15, title="Vignetting with FS poorly placed because of second lens diameter")
-    outputRays = path1.traceManyThrough(inputRays)
-    efficiency = 100*outputRays.count/inputRays.count
-    path1.display(ObjectRays(diameter=4,H=3,T=5, halfAngle=0.15), removeBlocked=False)
-    outputRays.display("Output profile with vignetting {0:.0f}% efficiency".format(efficiency), showTheta=False)
-    path1.reportEfficiency()
+    #path1 = imagingPathPreset(a=15, b=15, title="Vignetting with FS poorly placed because of second lens diameter")
+    #outputRays = path1.traceManyThrough(inputRays)
+    #efficiency = 100*outputRays.count/inputRays.count
+    #path1.display(ObjectRays(diameter=4,H=3,T=5, halfAngle=0.15), removeBlocked=False)
+    #outputRays.display("Output profile with vignetting {0:.0f}% efficiency".format(efficiency), showTheta=False)
+    #path1.reportEfficiency()
 
-    gc.collect()
+    #gc.collect()
 
-    path2 = imagingPathPreset(a=40, b=15, title="Suboptimal AS at second lens, but without vignetting")
-    outputRays = path2.traceManyThrough(inputRays)
-    efficiency = 100*outputRays.count/inputRays.count
-    path2.display(ObjectRays(diameter=4,H=3,T=5, halfAngle=0.15), removeBlocked=False)
-    outputRays.display("Output profile {0:.0f}% efficiency".format(efficiency), showTheta=False)
-    path2.reportEfficiency()
+    #path2 = imagingPathPreset(a=40, b=15, title="Suboptimal AS at second lens, but without vignetting")
+    #outputRays = path2.traceManyThrough(inputRays)
+    #efficiency = 100*outputRays.count/inputRays.count
+    #path2.display(ObjectRays(diameter=4,H=3,T=5, halfAngle=0.15), removeBlocked=False)
+    #outputRays.display("Output profile {0:.0f}% efficiency".format(efficiency), showTheta=False)
+    #path2.reportEfficiency()
 
-    gc.collect()
-
-    path3 = imagingPathPreset(a=25, b=50, title="Better AS at first lens and FS at Camera")
+    #gc.collect()
+    path3 = imagingPathPreset(a=50, b=100, title="Better AS at first lens and FS at Camera")
     outputRays = path3.traceManyThrough(inputRays)
     efficiency = 100*outputRays.count/inputRays.count
-    path3.display(ObjectRays(diameter=4,H=3,T=5, halfAngle=0.15), removeBlocked=False)
-    outputRays.display("Output profile {0:.0f}% efficiency".format(efficiency), showTheta=False)
     path3.reportEfficiency()
+     #path3.display(ObjectRays(diameter=4,H=3,T=5, halfAngle=0.15), removeBlocked=False)
+     #outputRays.display("Output profile {0:.0f}% efficiency".format(efficiency), showTheta=False)
+     #path3.reportEfficiency()
 
 if __name__ == "__main__":
     import envexamples

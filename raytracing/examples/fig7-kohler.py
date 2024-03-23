@@ -1,8 +1,4 @@
-TITLE       = "Kohler and critical (i.e. non-Kohler) illumination"
-DESCRIPTION = ''' This code compares the same system with and without Kohler illumination.
-The overlay of conjugate planes can determine indeed if the light source is
-imaged with the sample or not, significantly reducing the quality of the
-images.  '''
+#
 
 from raytracing import *
 
@@ -25,8 +21,8 @@ def exampleCode(comments=None):
     illumination.append(Lens(f=2, diameter=10, label="Eye Entrance"))
     illumination.append(Space(d=2))
     illumination.display(interactive=False, raysList=[
-                           LampRays(diameter=0.1, NA=0.5, N=2, T=6, z=6.6666666, rayColors='r', label="Source"),
-                           ObjectRays(diameter=2, halfAngle=0.1, H=2, T=2, z=120, rayColors='g', color='g', label="Sample")], removeBlocked=False)
+                           LampRays(diameter=1000, NA=500, N=200, T=600, z=66.666666, rayColors='r', label="Source"),
+                           ObjectRays(diameter=2000, halfAngle=1000, H=200, T=200, z=120, rayColors='g', color='g', label="Sample")], removeBlocked=False)
 
 if __name__ == "__main__":
     import envexamples

@@ -2,6 +2,7 @@ import envexamples
 from raytracing import *
 import matplotlib.pyplot as plt
 import numpy as np
+import time
 
 
 """
@@ -31,7 +32,7 @@ objectHalfHeight = 0.000250
 scanAngle = 10*np.pi/180
 
 # Number of total rays considered in these calculations. 
-nRays = 10000
+nRays = 300000
 
 # Production of rays in the angle range of the scanning element.
 scanRays = UniformRays(yMax=0, thetaMax=scanAngle, M=1, N=nRays)
@@ -55,17 +56,17 @@ def illuminationPath():
     # The object in this situation is the laser beam at the scanning element. 
     illumination.objectHeight = objectHalfHeight*2
     illumination.rayNumber = 3
-    illumination.fanNumber = 3
+    #illumination.fanNumber = 3
     illumination.fanAngle = 0
     illumination.append(System4f(f1=40, f2=75, diameter1=24.5, diameter2=24.5))
-    illumination.append(System4f(f1=100, f2=100, diameter1=24.5, diameter2=24.5))
-    illumination.append(Space(d=180/40))
+    #illumination.append(System4f(f1=100, f2=100, diameter1=24.5, diameter2=24.5))
+    #illumination.append(Space(d=180/40))
     illumination.append(UISUPLAPO60XW())
     illumination.append(Space(d=180/40))
 
     return illumination
 
-
+start_time = time.time()
 path = illuminationPath()
 outputRays = path.traceManyThrough(scanRays)
 for i in range(len(outputRays)):
@@ -73,7 +74,8 @@ for i in range(len(outputRays)):
     positions.append(outputRays[i].y*1000)
 
     scanRays.displayProgress()
-
+elapsed_original = time.time() - start_time
+print(f"Elapsed time, original: {elapsed_original:.2f} s")
 plt.plot(thetas,positions)
 plt.xlabel('Scan angle (degrees)')
 plt.ylabel('Scanning position of the focal spot (µm)')

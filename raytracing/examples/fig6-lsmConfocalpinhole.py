@@ -45,11 +45,11 @@ scanAngle = 10*np.pi/180
 pinholeModifier = {1 / 3: [], 1: [], 3: []}
 
 # list of all relative positions from the ideal focal spot position in nm
-positions = [1000, 800, 500, 300, 150, 100, 50, 25, 0, -25, -50, -100, -150, -300, -500, -800, -1000]
+positions = [i for i in range(3000, -3001, -400)] 
 
 # Number of total rays produced by the focal spot
 # increase for better resolution
-nRays = 10000
+nRays = 100000
 
 # Production of rays in the angle range of the scanning element.
 scanRays = UniformRays(yMax=0, thetaMax=scanAngle, M=1, N=100)
@@ -153,39 +153,40 @@ def rayEfficiency(pinholeFactor=None, focalSpotPosition2=None):
 
 def exampleCode(comments=None):
     # Pinhole sectioning
-    for pinhole in pinholeModifier:
-        print("\nComputing transmission for pinhole size {0:0.1f}".format(pinhole))
+    for a in range(2):
+        for pinhole in pinholeModifier:
+            #print("\nComputing transmission for pinhole size {0:0.1f}".format(pinhole))
 
-        efficiencyValues = []
-        for z in positions:
-            print(".",end='')
-            newPosition = 5 + (z * 0.000001)
-            efficiency = rayEfficiency(pinholeFactor=pinhole, focalSpotPosition2=newPosition)
-            efficiencyValues.append(efficiency)
-        pinholeModifier[pinhole] = efficiencyValues
+            efficiencyValues = []
+            for z in positions:
+                #print(".",end='')
+                newPosition = 5 + (z * 0.000001)
+                efficiency = rayEfficiency(pinholeFactor=pinhole, focalSpotPosition2=newPosition)
+                efficiencyValues.append(efficiency)
+                pinholeModifier[pinhole] = efficiencyValues
 
 
-    plt.plot(positions, pinholeModifier[1 / 3], 'k:', label='Small pinhole', linestyle='dashed')
-    plt.plot(positions, pinholeModifier[1], 'k-', label='Ideal pinhole')
-    plt.plot(positions, pinholeModifier[3], 'k--', label='Large pinhole', linestyle='dotted')
-    plt.ylabel('Transmission efficiency', fontsize=20)
-    plt.xlabel('Position of the focal spot (nm)', fontsize=20)
-    plt.legend()
-    plt.show()
+    #plt.plot(positions, pinholeModifier[1 / 3], 'k:', label='Small pinhole', linestyle='dashed')
+    #plt.plot(positions, pinholeModifier[1], 'k-', label='Ideal pinhole')
+    #plt.plot(positions, pinholeModifier[3], 'k--', label='Large pinhole', linestyle='dotted')
+    #plt.ylabel('Transmission efficiency', fontsize=20)
+    #plt.xlabel('Position of the focal spot (nm)', fontsize=20)
+    #plt.legend()
+    #plt.show()
 
     #-----------------------------------------------------------
     # Position of ray versus scan angle
-    path1 = illuminationPath1()
-    outputRays1 = path1.traceManyThrough(scanRays)
-    for i in range(len(outputRays1)):
-        thetas.append(scanRays[i].theta*180/np.pi)
-        positions1.append(outputRays1[i].y*1000)
-        scanRays.displayProgress()
+    #path1 = illuminationPath1()
+    #outputRays1 = path1.traceManyThrough(scanRays)
+    #for i in range(len(outputRays1)):
+       #thetas.append(scanRays[i].theta*180/np.pi)
+        #positions1.append(outputRays1[i].y*1000)
+        #scanRays.displayProgress()
 
-    plt.plot(thetas,positions1)
-    plt.xlabel('Scan angle (degrees)', fontsize=20)
-    plt.ylabel('Scanning position of the focal spot (µm)', fontsize=20)
-    plt.show()
+    #plt.plot(thetas,positions1)
+    #plt.xlabel('Scan angle (degrees)', fontsize=20)
+    #plt.ylabel('Scanning position of the focal spot (µm)', fontsize=20)
+    #plt.show()
 
 if __name__ == "__main__":
     exampleCode()

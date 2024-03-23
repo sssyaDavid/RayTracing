@@ -9,14 +9,15 @@ another combination of rays. This code uses the optical invariant to characteriz
 diameter of the first lens affects the number of detected rays at the imaged plane. 
 """
 
-path = ImagingPath()
-path.design(fontScale=1.7)
-path.append(System4f(f1=10, diameter1=25.4, f2=20, diameter2=25.4))
-path.reportEfficiency()
-path.display(interactive=False)
+#path = ImagingPath()
+#path.design(fontScale=1.7)
+#path.append(System4f(f1=10, diameter1=25.4, f2=20, diameter2=25.4))
+#path.reportEfficiency()
+#path.display(interactive=False)
 
 path2 = ImagingPath()
-path2.design(fontScale=1.5)
-path2.append(System4f(f1=10, diameter1=12.7, f2=20, diameter2=25.4))
-path2.reportEfficiency()
-path2.display(interactive=False)
+path2.design(fontScale=150)
+path2.append(System4f(f1=1000, diameter1=1270, f2=2000, diameter2=25400))
+for i in range(100):
+    path2.reportEfficiency()
+    path2.display(interactive=False)
